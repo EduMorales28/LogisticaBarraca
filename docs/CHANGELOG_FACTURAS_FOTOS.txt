@@ -1,0 +1,29 @@
+Cambios aplicados
+- Se agregó carga de múltiples fotos de factura además del PDF.
+- Las fotos se suben a Firebase Storage en orders_invoice_photos.
+- El pedido guarda invoicePhotoUrls en Firestore.
+- El detalle del pedido muestra PDF y fotos de factura en una sección común.
+- Se mantuvo compatibilidad con pedidos viejos que solo tienen pdfUrl.
+- También se leen posibles campos legacy invoicePhotoUrl o facturaPhotoUrl si existieran.
+- Se hizo más tolerante la lectura del perfil de usuario:
+  - role o rol
+  - fullName / fullname / nombre
+  - activo como bool o texto "true"
+- Se dejó consistente el paso de profile entre pantallas para evitar errores de compilación.
+
+Qué no cambié
+- No cambié tu lógica de entregas, evidencia, PDF, Maps ni permisos.
+- No saqué todavía el campo Detalle para el operador.
+- No agregué edición posterior de fotos ya guardadas en un pedido existente.
+
+Acciones manuales en Firebase
+- No hace falta cambiar Firestore Rules si ya podías guardar PDF y fotos de entrega.
+- Storage debe permitir write/read a usuarios autenticados para subir también fotos de factura.
+- Los pedidos nuevos guardarán invoicePhotoUrls. Los viejos seguirán mostrando lo que ya tenían.
+
+Windows
+- Tu proyecto ya tiene firebase_options con Windows, así que la base está preparada.
+- Lo más probable es que puedas trabajar desde PC con flutter build windows.
+- Eso genera una app de escritorio para Windows.
+- Un instalador .exe/.msix es posible, pero es un paso adicional de empaquetado.
+- Este ZIP no incluye instalador de Windows; solo deja la app lista para seguir en esa dirección.

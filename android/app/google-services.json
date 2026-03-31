@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "282853549882",
+    "project_id": "logistica-barraca",
+    "storage_bucket": "logistica-barraca.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282853549882:android:b6bf17b2ffe3b9b2f9d203",
+        "android_client_info": {
+          "package_name": "com.barraca.logistica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282853549882-u3k2afkejm2nlr7jbv8pkvdo1dv7ng1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB89d7M91-KlLzJ_g6L-HjT8RipTsN_vLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282853549882-u3k2afkejm2nlr7jbv8pkvdo1dv7ng1n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "282853549882-5tbbppbb95pj6osgdo4bbrsij9is73d9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.logisticaBarracaMvp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282853549882:android:4f7d85c71eb86519f9d203",
+        "android_client_info": {
+          "package_name": "com.example.logistica_barraca_mvp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282853549882-u3k2afkejm2nlr7jbv8pkvdo1dv7ng1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB89d7M91-KlLzJ_g6L-HjT8RipTsN_vLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282853549882-u3k2afkejm2nlr7jbv8pkvdo1dv7ng1n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "282853549882-5tbbppbb95pj6osgdo4bbrsij9is73d9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.logisticaBarracaMvp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
