@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../authz.dart';
+import '../local_mode.dart';
 import 'orders_page.dart';
 
 class DispatchPlanningPage extends StatelessWidget {
@@ -111,6 +112,12 @@ class _DispatchPlanningListState extends State<_DispatchPlanningList> {
   }
 
   Future<void> _persistOrder() async {
+    if (kLocalOnlyMode) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(kLocalOnlyWriteBlockedMessage)),
+      );
+      return;
+    }
     setState(() => _saving = true);
 
     try {

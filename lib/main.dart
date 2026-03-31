@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 import 'screens/dispatch_planning_page.dart';
 import 'authz.dart';
 import 'firebase_options.dart';
+import 'local_mode.dart';
 import 'screens/delivered_page.dart';
 import 'screens/orders_page.dart';
 
@@ -23,6 +24,9 @@ Future<void> main() async {
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
   );
+  if (kLocalOnlyMode) {
+    await FirebaseFirestore.instance.disableNetwork();
+  }
   runApp(const BarracaApp());
 }
 
@@ -748,6 +752,13 @@ class _NewOrderPageState extends State<NewOrderPage> {
   }
 
   Future<void> _saveOrder() async {
+    if (kLocalOnlyMode) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(kLocalOnlyWriteBlockedMessage)),
+      );
+      return;
+    }
+
     if (_invoice.text.trim().isEmpty ||
         _customer.text.trim().isEmpty ||
         _contact.text.trim().isEmpty ||
@@ -1262,6 +1273,17 @@ class UsersPage extends StatelessWidget {
                                     .toList(),
                                 onChanged: (value) async {
                                   if (value == null) return;
+                                  if (kLocalOnlyMode) {
+                                    if (!context.mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          kLocalOnlyWriteBlockedMessage,
+                                        ),
+                                      ),
+                                    );
+                                    return;
+                                  }
                                   await doc.reference.update({'role': value.name});
                                 },
                               ),
@@ -1270,6 +1292,17 @@ class UsersPage extends StatelessWidget {
                               selected: active,
                               label: Text(active ? 'Activo' : 'Inactivo'),
                               onSelected: (_) async {
+                                if (kLocalOnlyMode) {
+                                  if (!context.mounted) return;
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        kLocalOnlyWriteBlockedMessage,
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
                                 await doc.reference.update({'activo': !active});
                               },
                             ),

@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../authz.dart';
+import '../local_mode.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Color _statusColor(String estado, String deliveryProgress) {
@@ -236,6 +237,12 @@ class OrderDetailFirestorePage extends StatelessWidget {
   const OrderDetailFirestorePage({super.key, required this.orderId, required this.profile});
 
   Future<void> _softDeleteOrder(BuildContext context) async {
+    if (kLocalOnlyMode) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(kLocalOnlyWriteBlockedMessage)),
+      );
+      return;
+    }
     final confirmed = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
@@ -475,6 +482,12 @@ class _DeliveryEventCard extends StatelessWidget {
   const _DeliveryEventCard({required this.orderId, required this.eventDoc, required this.profile});
 
   Future<void> _deleteEvent(BuildContext context) async {
+    if (kLocalOnlyMode) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(kLocalOnlyWriteBlockedMessage)),
+      );
+      return;
+    }
     final confirm = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
@@ -599,6 +612,13 @@ class _AddAdminEvidenceButtonState extends State<_AddAdminEvidenceButton> {
   bool _loading = false;
 
   Future<void> _pickAndUpload() async {
+    if (kLocalOnlyMode) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(kLocalOnlyWriteBlockedMessage)),
+      );
+      return;
+    }
     final picked = await FilePicker.platform.pickFiles(type: FileType.image, withData: true);
     if (picked == null || picked.files.single.bytes == null) return;
     setState(() => _loading = true);
@@ -711,6 +731,10 @@ class _DeliveryEvidencePanelState extends State<DeliveryEvidencePanel> {
   }
 
   Future<void> _saveDelivery() async {
+    if (kLocalOnlyMode) {
+      _toast(kLocalOnlyWriteBlockedMessage);
+      return;
+    }
     if (!_validateBeforeSave()) return;
     setState(() => saving = true);
     try {
