@@ -85,6 +85,8 @@ class AppUserProfile {
   bool get canDeleteOrders => role == AppRole.admin;
   bool get canDeleteDeliveryEvents => role == AppRole.admin;
   bool get canAddAdminEvidence => role == AppRole.admin;
+  bool get canReceiveOrderNotifications =>
+      role == AppRole.logistica || role == AppRole.encargadoLogistica;
   bool get canSeeDashboard => true;
   bool get canSeePending => true;
   bool get canSeeDelivered => true;

@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 import '../authz.dart';
 import '../local_mode.dart';
+import '../services/logistics_day_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Color _statusColor(String estado, String deliveryProgress) {
@@ -127,8 +128,10 @@ class OrdersPage extends StatelessWidget {
               final statusLabel = _statusLabel(estado, progress);
               final cliente = _text(data['clienteNombreSnapshot']);
               final direccion = _text(data['direccionTexto']);
-              final pickupSummary = _text(data['pickupSummary'] ?? data['counterPickupUnits'], '-');
-              final deliverySummary = _text(data['deliverySummary'] ?? data['itemsSummary'], '-');
+              final articlesSummary = _text(
+                data['invoiceItemsText'] ?? data['itemsSummary'] ?? data['deliverySummary'],
+                '-',
+              );
               final observaciones = _text(data['observaciones'], '');
               final hasPdfs = _stringList(data['invoicePdfUrls']).isNotEmpty || _text(data['pdfUrl'], '').isNotEmpty;
               return Card(
@@ -172,8 +175,7 @@ class OrdersPage extends StatelessWidget {
                       const SizedBox(height: 6),
                       Text('📍 $direccion'),
                       const SizedBox(height: 8),
-                      Text('🧱 Retiro por mostrador: $pickupSummary'),
-                      Text('🚛 Detalle de entrega: $deliverySummary'),
+                      Text('📦 Artículos: $articlesSummary'),
                       if (observaciones.isNotEmpty) ...[
                         const SizedBox(height: 8),
                         Text('📝 $observaciones'),
@@ -216,6 +218,45 @@ class OrdersPage extends StatelessWidget {
                               ),
                             ),
                           ],
+                          if (profile.canDeleteOrders) ...[
+                            const SizedBox(width: 8),
+                            IconButton.filled(
+                              style: IconButton.styleFrom(
+                                backgroundColor: Colors.red.shade50,
+                                foregroundColor: Colors.red.shade700,
+                              ),
+                              icon: const Icon(Icons.delete_outline),
+                              tooltip: 'Eliminar pedido',
+                              onPressed: () async {
+                                final confirmed = await showDialog<bool>(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    title: const Text('¿Eliminar pedido?'),
+                                    content: Text('Se eliminará el pedido de $cliente. Esta acción se puede deshacer desde la base de datos.'),
+                                    actions: [
+                                      TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+                                      FilledButton(
+                                        style: FilledButton.styleFrom(backgroundColor: Colors.red),
+                                        onPressed: () => Navigator.pop(ctx, true),
+                                        child: const Text('Eliminar'),
+                                      ),
+                                    ],
+                                  ),
+                                ) ?? false;
+                                if (!confirmed) return;
+                                await FirebaseFirestore.instance.collection('orders').doc(doc.id).update({
+                                  'deleted': true,
+                                  'deletedAt': FieldValue.serverTimestamp(),
+                                  'deletedBy': profile.uid,
+                                  'deletedByName': profile.fullName,
+                                });
+                                if (!context.mounted) return;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Pedido eliminado')),
+                                );
+                              },
+                            ),
+                          ],
                         ],
                       ),
                     ],
@@ -237,12 +278,6 @@ class OrderDetailFirestorePage extends StatelessWidget {
   const OrderDetailFirestorePage({super.key, required this.orderId, required this.profile});
 
   Future<void> _softDeleteOrder(BuildContext context) async {
-    if (kLocalOnlyMode) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text(kLocalOnlyWriteBlockedMessage)),
-      );
-      return;
-    }
     final confirmed = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
@@ -300,8 +335,10 @@ class OrderDetailFirestorePage extends StatelessWidget {
           final legacyPdf = _text(data['pdfUrl'], '');
           if (invoicePdfUrls.isEmpty && legacyPdf.isNotEmpty) invoicePdfUrls.add(legacyPdf);
           final invoicePhotoUrls = _stringList(data['invoicePhotoUrls']);
-          final pickupSummary = _text(data['pickupSummary'] ?? data['counterPickupUnits'], '-');
-          final deliverySummary = _text(data['deliverySummary'] ?? data['itemsSummary'], '-');
+          final articlesSummary = _text(
+            data['invoiceItemsText'] ?? data['itemsSummary'] ?? data['deliverySummary'],
+            '-',
+          );
           final destinationMapLink = _buildDestinationMapLink(data);
           return ListView(
             padding: const EdgeInsets.all(16),
@@ -370,11 +407,9 @@ class OrderDetailFirestorePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Logística', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const Text('Artículos', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
-                    Text('Retiro por mostrador: $pickupSummary'),
-                    const SizedBox(height: 6),
-                    Text('Detalle de entrega: $deliverySummary'),
+                    Text(articlesSummary),
                   ],
                 ),
               ),
@@ -736,6 +771,28 @@ class _DeliveryEvidencePanelState extends State<DeliveryEvidencePanel> {
       return;
     }
     if (!_validateBeforeSave()) return;
+
+    String? logisticsDayLogId;
+    String? activeTruckId;
+    String? activeTruckLabel;
+    if (requiresAndroidLogisticsDayControl(widget.profile)) {
+      final openDayQuery = await FirebaseFirestore.instance
+          .collection('logistics_day_logs')
+          .where('userUid', isEqualTo: widget.profile.uid)
+          .where('status', isEqualTo: 'open')
+          .limit(1)
+          .get();
+      final dayDoc = openDayQuery.docs.isNotEmpty ? openDayQuery.docs.first : null;
+      final dayData = dayDoc?.data();
+      if (!isOpenLogisticsDay(dayData)) {
+        _toast('Primero tenés que iniciar la jornada con camión y km iniciales.');
+        return;
+      }
+      logisticsDayLogId = dayDoc!.id;
+      activeTruckId = dayData?['truckId']?.toString();
+      activeTruckLabel = dayData?['truckLabel']?.toString();
+    }
+
     setState(() => saving = true);
     try {
       final photoUrls = <String>[];
@@ -788,6 +845,9 @@ class _DeliveryEvidencePanelState extends State<DeliveryEvidencePanel> {
         'createdAt': FieldValue.serverTimestamp(),
         'createdByUid': widget.profile.uid,
         'createdByName': widget.profile.fullName,
+        'logisticsDayLogId': logisticsDayLogId,
+        'truckId': activeTruckId,
+        'truckLabel': activeTruckLabel,
         'deleted': false,
       });
       batch.update(orderRef, {
@@ -805,6 +865,9 @@ class _DeliveryEvidencePanelState extends State<DeliveryEvidencePanel> {
           hasPendingLocalUploads ? pendingLocalPhotoNames : null,
         'lastDeliveryUpdateAt': FieldValue.serverTimestamp(),
         'lastDeliveryResult': result,
+        'activeTruckId': activeTruckId,
+        'activeTruckLabel': activeTruckLabel,
+        'logisticsDayLogId': logisticsDayLogId,
         'deliveryEventCount': FieldValue.increment(1),
         if (result == 'parcial') 'hasPartialDeliveries': true,
         if (result == 'entregado') 'deliveredAt': FieldValue.serverTimestamp(),

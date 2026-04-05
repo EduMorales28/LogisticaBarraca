@@ -6,7 +6,9 @@ import '../local_mode.dart';
 import 'orders_page.dart';
 
 class DispatchPlanningPage extends StatelessWidget {
-  const DispatchPlanningPage({super.key});
+  final AppUserProfile profile;
+
+  const DispatchPlanningPage({super.key, required this.profile});
 
   bool _isDispatchPending(Map<String, dynamic> data) {
     final estado = (data['estado'] ?? '').toString();
@@ -21,8 +23,6 @@ class DispatchPlanningPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profile = CurrentAppUserScope.of(context);
-
     if (!profile.canManageDispatch) {
       return const Center(
         child: Card(

@@ -8,8 +8,9 @@ enum DeliveredFilter { all, finalOnly, partialOnly, failedOnly }
 
 class DeliveredFirestorePage extends StatelessWidget {
   final DeliveredFilter filter;
+  final AppUserProfile profile;
 
-  const DeliveredFirestorePage({super.key, this.filter = DeliveredFilter.all});
+  const DeliveredFirestorePage({super.key, required this.profile, this.filter = DeliveredFilter.all});
 
   bool _include(Map<String, dynamic> data) {
     if (data['deleted'] == true) return false;
@@ -78,7 +79,7 @@ class DeliveredFirestorePage extends StatelessWidget {
                   trailing: FilledButton.tonalIcon(
                     onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => OrderDetailFirestorePage(orderId: doc.id, profile: CurrentAppUserScope.of(context))),
+                      MaterialPageRoute(builder: (_) => OrderDetailFirestorePage(orderId: doc.id, profile: profile)),
                     ),
                     icon: const Icon(Icons.visibility_outlined),
                     label: const Text('Ver'),

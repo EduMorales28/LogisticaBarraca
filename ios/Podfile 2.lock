@@ -1195,14 +1195,43 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.37)
   - BoringSSL-GRPC/Interface (0.0.37)
   - cloud_firestore (6.2.0):
-    - Firebase/CoreOnly (~> 12.9.0)
-    - Firebase/Firestore (~> 12.9.0)
+    - Firebase/Firestore (= 12.9.0)
     - firebase_core
-    - FlutterMacOS
+    - Flutter
+  - DKImagePickerController/Core (4.3.9):
+    - DKImagePickerController/ImageDataManager
+    - DKImagePickerController/Resource
+  - DKImagePickerController/ImageDataManager (4.3.9)
+  - DKImagePickerController/PhotoGallery (4.3.9):
+    - DKImagePickerController/Core
+    - DKPhotoGallery
+  - DKImagePickerController/Resource (4.3.9)
+  - DKPhotoGallery (0.0.19):
+    - DKPhotoGallery/Core (= 0.0.19)
+    - DKPhotoGallery/Model (= 0.0.19)
+    - DKPhotoGallery/Preview (= 0.0.19)
+    - DKPhotoGallery/Resource (= 0.0.19)
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Core (0.0.19):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Preview
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Model (0.0.19):
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Preview (0.0.19):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Resource
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Resource (0.0.19):
+    - SDWebImage
+    - SwiftyGif
   - file_picker (0.0.1):
-    - FlutterMacOS
-  - file_selector_macos (0.0.1):
-    - FlutterMacOS
+    - DKImagePickerController/PhotoGallery
+    - Flutter
   - Firebase/Auth (12.9.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 12.9.0)
@@ -1215,18 +1244,16 @@ PODS:
     - Firebase/CoreOnly
     - FirebaseStorage (~> 12.9.0)
   - firebase_auth (6.3.0):
-    - Firebase/Auth (~> 12.9.0)
-    - Firebase/CoreOnly (~> 12.9.0)
+    - Firebase/Auth (= 12.9.0)
     - firebase_core
-    - FlutterMacOS
+    - Flutter
   - firebase_core (4.6.0):
-    - Firebase/CoreOnly (~> 12.9.0)
-    - FlutterMacOS
+    - Firebase/CoreOnly (= 12.9.0)
+    - Flutter
   - firebase_storage (13.2.0):
-    - Firebase/CoreOnly (~> 12.9.0)
-    - Firebase/Storage (~> 12.9.0)
+    - Firebase/Storage (= 12.9.0)
     - firebase_core
-    - FlutterMacOS
+    - Flutter
   - FirebaseAppCheckInterop (12.9.0)
   - FirebaseAuth (12.9.0):
     - FirebaseAppCheckInterop (~> 12.9.0)
@@ -1274,9 +1301,9 @@ PODS:
     - FirebaseCoreExtension (~> 12.9.0)
     - GoogleUtilities/Environment (~> 8.1)
     - GTMSessionFetcher/Core (< 6.0, >= 3.4)
+  - Flutter (1.0.0)
   - flutter_local_notifications (0.0.1):
-    - FlutterMacOS
-  - FlutterMacOS (1.0.0)
+    - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
     - FlutterMacOS
@@ -1394,41 +1421,50 @@ PODS:
   - gRPC-Core/Interface (1.69.0)
   - gRPC-Core/Privacy (1.69.0)
   - GTMSessionFetcher/Core (5.2.0)
+  - image_picker_ios (0.0.1):
+    - Flutter
   - leveldb-library (1.22.6)
   - nanopb (3.30910.0):
     - nanopb/decode (= 3.30910.0)
     - nanopb/encode (= 3.30910.0)
   - nanopb/decode (3.30910.0)
   - nanopb/encode (3.30910.0)
-  - package_info_plus (0.0.1):
-    - FlutterMacOS
+  - package_info_plus (0.4.5):
+    - Flutter
   - printing (1.0.0):
-    - FlutterMacOS
+    - Flutter
+  - RecaptchaInterop (101.0.0)
+  - SDWebImage (5.21.7):
+    - SDWebImage/Core (= 5.21.7)
+  - SDWebImage/Core (5.21.7)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - url_launcher_macos (0.0.1):
-    - FlutterMacOS
+  - SwiftyGif (5.4.5)
+  - url_launcher_ios (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
-  - cloud_firestore (from `Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos`)
-  - file_picker (from `Flutter/ephemeral/.symlinks/plugins/file_picker/macos`)
-  - file_selector_macos (from `Flutter/ephemeral/.symlinks/plugins/file_selector_macos/macos`)
-  - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
-  - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
-  - firebase_storage (from `Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos`)
-  - flutter_local_notifications (from `Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos`)
-  - FlutterMacOS (from `Flutter/ephemeral`)
-  - geolocator_apple (from `Flutter/ephemeral/.symlinks/plugins/geolocator_apple/darwin`)
-  - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
-  - printing (from `Flutter/ephemeral/.symlinks/plugins/printing/macos`)
-  - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/darwin`)
-  - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
+  - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - file_picker (from `.symlinks/plugins/file_picker/ios`)
+  - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
+  - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
+  - printing (from `.symlinks/plugins/printing/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
     - abseil
     - BoringSSL-GRPC
+    - DKImagePickerController
+    - DKPhotoGallery
     - Firebase
     - FirebaseAppCheckInterop
     - FirebaseAuth
@@ -1446,45 +1482,49 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
+    - RecaptchaInterop
+    - SDWebImage
+    - SwiftyGif
 
 EXTERNAL SOURCES:
   cloud_firestore:
-    :path: Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos
+    :path: ".symlinks/plugins/cloud_firestore/ios"
   file_picker:
-    :path: Flutter/ephemeral/.symlinks/plugins/file_picker/macos
-  file_selector_macos:
-    :path: Flutter/ephemeral/.symlinks/plugins/file_selector_macos/macos
+    :path: ".symlinks/plugins/file_picker/ios"
   firebase_auth:
-    :path: Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos
+    :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
-    :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
+    :path: ".symlinks/plugins/firebase_core/ios"
   firebase_storage:
-    :path: Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos
+    :path: ".symlinks/plugins/firebase_storage/ios"
+  Flutter:
+    :path: Flutter
   flutter_local_notifications:
-    :path: Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos
-  FlutterMacOS:
-    :path: Flutter/ephemeral
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   geolocator_apple:
-    :path: Flutter/ephemeral/.symlinks/plugins/geolocator_apple/darwin
+    :path: ".symlinks/plugins/geolocator_apple/darwin"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   package_info_plus:
-    :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
+    :path: ".symlinks/plugins/package_info_plus/ios"
   printing:
-    :path: Flutter/ephemeral/.symlinks/plugins/printing/macos
+    :path: ".symlinks/plugins/printing/ios"
   shared_preferences_foundation:
-    :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/darwin
-  url_launcher_macos:
-    :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   abseil: a05cc83bf02079535e17169a73c5be5ba47f714b
   BoringSSL-GRPC: dded2a44897e45f28f08ae87a55ee4bcd19bc508
-  cloud_firestore: fbc0e092312ff3d66ed52e5f4ef6521e9c151320
-  file_picker: 7584aae6fa07a041af2b36a2655122d42f578c1a
-  file_selector_macos: 9e9e068e90ebee155097d00e89ae91edb2374db7
+  cloud_firestore: 698d4d849c58da2ef2b3b8b9db27d2cd56614e7e
+  DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
+  DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
+  file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
   Firebase: 065f2bb395062046623036d8e6dc857bc2521d56
-  firebase_auth: e48180de625a2d9c673f74790b4af512a08490ba
-  firebase_core: 82d678e9e10fc0b515ea1872dd446eee4722f144
-  firebase_storage: 9413f3b3326f464e086de5be4f4e6177bbf0ae1a
+  firebase_auth: 323c64eedef33fc3fdf438d16c29d2624b2ce4f4
+  firebase_core: 8e6f58412ca227827c366b92e7cee047a2148c60
+  firebase_storage: 8d16922c017c49812f7bbe64a86f756f99a44c74
   FirebaseAppCheckInterop: 4bade10286cc977e516f75d2d8312cbdfa534789
   FirebaseAuth: 3a39f6436c21ebfd7919b698228b4f89ff94c23b
   FirebaseAuthInterop: f8f6ff72dc24621906497fbe5cf3c42ee815e59c
@@ -1495,20 +1535,24 @@ SPEC CHECKSUMS:
   FirebaseFirestoreInternal: 02341a9ba87f6309227b04685022a5e16307bbf7
   FirebaseSharedSwift: 9d2fa84a46676302b89dbd5e6e62bce2fe376909
   FirebaseStorage: 3ba2348d876c295236cdd9f408a62d3f9ff8e6b5
-  flutter_local_notifications: 13862b132e32eb858dea558a86d45d08daeacfe7
-  FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  flutter_local_notifications: 395056b3175ba4f08480a7c5de30cd36d69827e4
   geolocator_apple: ab36aa0e8b7d7a2d7639b3b4e48308394e8cef5e
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
   "gRPC-C++": cc207623316fb041a7a3e774c252cf68a058b9e8
   gRPC-Core: 860978b7db482de8b4f5e10677216309b5ff6330
   GTMSessionFetcher: 904bdd2a82c635bcd6f44edf94cc8775c5d1d6e6
+  image_picker_ios: e0ece4aa2a75771a7de3fa735d26d90817041326
   leveldb-library: cc8b8f8e013647a295ad3f8cd2ddf49a6f19be19
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
-  package_info_plus: f0052d280d17aa382b932f399edf32507174e870
-  printing: c4cf83c78fd684f9bc318e6aadc18972aa48f617
+  package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
+  printing: 54ff03f28fe9ba3aa93358afb80a8595a071dd07
+  RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
+  SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
   shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
-  url_launcher_macos: f87a979182d112f911de6820aefddaf56ee9fbfd
+  SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
+  url_launcher_ios: 7a95fa5b60cc718a708b8f2966718e93db0cef1b
 
-PODFILE CHECKSUM: 54d867c82ac51cbd61b565781b9fada492027009
+PODFILE CHECKSUM: 5c9784b6304a99f6453238552950471d9f07b7a9
 
 COCOAPODS: 1.16.2
