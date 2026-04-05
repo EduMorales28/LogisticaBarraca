@@ -34,6 +34,8 @@ migrate_working_dir/
 /coverage/
 /output/
 /Instalador/Output/
+ios/Podfile 2.lock
+ios/Flutter/Flutter 2.podspec
 
 # Symbolication related
 app.*.symbols
