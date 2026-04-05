@@ -8,7 +8,7 @@ echo "[2/4] Instalando dependencias..."
 flutter pub get
 
 echo "[3/4] Compilando web release..."
-flutter build web --release
+flutter build web --release --dart-define=LOCAL_ONLY_MODE=false
 
 echo "[4/4] Validando Firebase CLI..."
 if ! command -v firebase >/dev/null 2>&1; then

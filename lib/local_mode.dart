@@ -1,6 +1,6 @@
 const bool kLocalOnlyMode = bool.fromEnvironment(
   'LOCAL_ONLY_MODE',
-  defaultValue: true,
+  defaultValue: false,
 );
 
 const String kLocalOnlyWriteBlockedMessage =

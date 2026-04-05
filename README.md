@@ -93,7 +93,7 @@ firebase login
 3. Construir la web en release:
 
 ```bash
-flutter build web --release
+flutter build web --release --dart-define=LOCAL_ONLY_MODE=false
 ```
 
 4. Verificar el proyecto activo:
@@ -114,6 +114,7 @@ firebase deploy --only hosting
 
 - No se toca Android con este deploy.
 - Si usas Firebase Auth en web, asegurate de agregar el dominio de Hosting en Authorized domains dentro de Firebase Auth.
+- Si queres correr sin backend para demo local, podes activar modo local con `--dart-define=LOCAL_ONLY_MODE=true`.
 
 ## Arquitectura recomendada para la siguiente etapa
 
