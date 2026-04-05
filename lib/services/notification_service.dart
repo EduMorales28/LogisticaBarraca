@@ -1,11 +1,23 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 
 class NotificationService {
   static final _plugin = FlutterLocalNotificationsPlugin();
   static bool _initialized = false;
 
+  static bool get _isSupportedPlatform {
+    if (kIsWeb) return false;
+    return defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.macOS;
+  }
+
   static Future<void> init() async {
     if (_initialized) return;
+    if (!_isSupportedPlatform) {
+      _initialized = true;
+      return;
+    }
 
     const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     const darwinSettings = DarwinInitializationSettings(
@@ -28,6 +40,8 @@ class NotificationService {
     required String orderNumber,
     required String customerName,
   }) async {
+    if (!_isSupportedPlatform) return;
+
     const androidDetails = AndroidNotificationDetails(
       'new_orders',
       'Nuevos pedidos',

@@ -56,23 +56,64 @@ Esta entrega fue armada como **MVP funcional de demostración con persistencia l
 flutter pub get
 ```
 
-4. Si faltan carpetas de plataforma en tu equipo, ejecutar:
-
-```bash
-flutter create .
-```
-
-5. Correr en web:
+4. Correr en web:
 
 ```bash
 flutter run -d chrome
 ```
 
-6. Correr en Android:
+5. Correr en Android:
 
 ```bash
 flutter run -d android
 ```
+
+## Publicar en Firebase Hosting (Web)
+
+El proyecto ya queda configurado para Firebase Hosting con:
+
+- proyecto por defecto: `logistica-barraca`
+- hosting apuntando a `build/web`
+- rewrite SPA de `**` a `/index.html`
+
+### Checklist antes de deploy
+
+1. Tener Firebase CLI instalada:
+
+```bash
+npm install -g firebase-tools
+```
+
+2. Iniciar sesión en Firebase:
+
+```bash
+firebase login
+```
+
+3. Construir la web en release:
+
+```bash
+flutter build web --release
+```
+
+4. Verificar el proyecto activo:
+
+```bash
+firebase use
+```
+
+Debe mostrar `logistica-barraca`.
+
+5. Publicar Hosting:
+
+```bash
+firebase deploy --only hosting
+```
+
+### Importante
+
+- No se toca Android con este deploy.
+- Si usas Firebase Auth en web, asegurate de agregar el dominio de Hosting en Authorized domains dentro de Firebase Auth.
 
 ## Arquitectura recomendada para la siguiente etapa
 
